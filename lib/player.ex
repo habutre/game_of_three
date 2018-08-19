@@ -14,10 +14,12 @@ defmodule Player do
 
   def move(opponent_move) do
     cond do
-      opponent_move/3  <= 1 ->
+      opponent_move / 3 <= 1 ->
         opponent_move
+
       opponent_move <= 10 ->
         opponent_move + 1
+
       true ->
         opponent_move - 1
     end
