@@ -1,19 +1,22 @@
-defmodule Player do
+defmodule GameOfThree.Player do
   @moduledoc """
   Player module is responsible for player moves
   trying to win over opponents
   """
 
   def move do
-    seed_game
+    seed_game()
   end
 
   def move(opponent_move = nil) do
-    seed_game
+    seed_game()
   end
 
   def move(opponent_move) do
     cond do
+      opponent_move < 1 || opponent_move > 25_000 ->
+        {:error, "The movement is out of range"}
+
       opponent_move / 3 <= 1 ->
         opponent_move
 
