@@ -1,6 +1,8 @@
-defmodule GameTest do
+defmodule GameOfThree.GameTest do
   use ExUnit.Case
+  alias GameOfThree.Game
   doctest Game
+
 
   test "GIVEN a player move WHEN no value is sent                           THEN an error message should be sent" do
     assert({:error, "An empty movement is not allowed"} = Game.evaluate_move())
@@ -12,6 +14,12 @@ defmodule GameTest do
 
   test "GIVEN a player move WHEN the value is not a number                  THEN an error message should be sent" do
     assert({:error, "A numeric value is expected here"} = Game.evaluate_move("a"))
+  end
+
+  test "GIVEN a player move WHEN the value is out of range                  THEN an error message should be sent" do
+    assert({:error, "The movement is out of range"} = Game.evaluate_move(0))
+    assert({:error, "The movement is out of range"} = Game.evaluate_move(0.6))
+    assert({:error, "The movement is out of range"} = Game.evaluate_move(25_001))
   end
 
   test "GIVEN a player move WHEN the value divided by 3 is less or equals 1 THEN there is not Winner" do

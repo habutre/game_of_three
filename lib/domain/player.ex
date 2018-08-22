@@ -14,9 +14,6 @@ defmodule GameOfThree.Player do
 
   def move(opponent_move) do
     cond do
-      opponent_move < 1 || opponent_move > 25_000 ->
-        {:error, "The movement is out of range"}
-
       opponent_move / 3 <= 1 ->
         opponent_move
 

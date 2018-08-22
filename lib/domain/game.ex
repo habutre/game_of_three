@@ -13,6 +13,9 @@ defmodule GameOfThree.Game do
 
   def evaluate_move(value) do
     cond do
+      value < 1 || value > 25_000 ->
+        {:error, "The movement is out of range"}
+
       div(value, 3) == 1 ->
         {:winner, "The player xxx has won!"}
 
