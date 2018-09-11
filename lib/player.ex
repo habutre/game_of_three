@@ -4,12 +4,15 @@ defmodule Player do
   trying to win over opponents
   """
 
+  defstruct player_id: nil,
+            player_name: nil
+
   def move do
-    seed_game
+    seed_game()
   end
 
   def move(opponent_move = nil) do
-    seed_game
+    seed_game()
   end
 
   def move(opponent_move) do
