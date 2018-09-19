@@ -4,7 +4,12 @@ defmodule GameOfThree.Game do
   and announce the winner or pass the turn for the opponent
   """
 
-  def evaluate_move(), do: {:error, "An empty movement is not allowed"}
+  defstruct game_id: nil,
+            game_name: nil,
+            player_a: nil,
+            player_b: nil
+
+  def evaluate_move, do: {:error, "An empty movement is not allowed"}
 
   def evaluate_move(value = nil), do: {:error, "An empty movement is not allowed"}
 

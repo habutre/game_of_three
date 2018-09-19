@@ -4,6 +4,9 @@ defmodule GameOfThree.Player do
   trying to win over opponents
   """
 
+  defstruct player_id: nil,
+            player_name: nil
+
   def move do
     seed_game()
   end
