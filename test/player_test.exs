@@ -1,5 +1,5 @@
 defmodule PlayerTest do
-  alias GameOfThree.Player
+  alias GameOfThree.Domain.Player
   use ExUnit.Case
   doctest Player
 
