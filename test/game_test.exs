@@ -3,7 +3,6 @@ defmodule GameOfThree.GameTest do
   alias GameOfThree.Domain.Game
   doctest Game
 
-
   test "GIVEN a player move WHEN no value is sent                           THEN an error message should be sent" do
     assert({:error, "An empty movement is not allowed"} = Game.evaluate_move())
   end
