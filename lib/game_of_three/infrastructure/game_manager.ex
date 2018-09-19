@@ -1,4 +1,4 @@
-defmodule GameManager do
+defmodule GameOfThree.Infrastructure.GameManager do
   use GenStage
 
   @moduledoc """

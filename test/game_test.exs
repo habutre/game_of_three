@@ -1,8 +1,7 @@
 defmodule GameOfThree.GameTest do
   use ExUnit.Case
-  alias GameOfThree.Game
+  alias GameOfThree.Domain.Game
   doctest Game
-
 
   test "GIVEN a player move WHEN no value is sent                           THEN an error message should be sent" do
     assert({:error, "An empty movement is not allowed"} = Game.evaluate_move())

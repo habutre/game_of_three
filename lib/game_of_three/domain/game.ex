@@ -1,4 +1,4 @@
-defmodule GameOfThree.Game do
+defmodule GameOfThree.Domain.Game do
   @moduledoc """
   The Game module is responsible by evaluate the player's movements
   and announce the winner or pass the turn for the opponent

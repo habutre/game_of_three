@@ -1,4 +1,4 @@
-defmodule GameOfThree.Player do
+defmodule GameOfThree.Domain.Player do
   @moduledoc """
   Player module is responsible for player moves
   trying to win over opponents
