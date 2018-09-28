@@ -1,15 +1,14 @@
 defmodule PlayerHandler do
-  use GenStage
+  use GenServer
 
-  def init(move) do
-    {:producer_consumer, move}
+  # Client API
+  def init(args) do
+    {:ok, args}
   end
-
-  def handle_events(oponent_move, from, number) do
-    IO.inspect(oponent_move)
-
-    move = Enum.map(oponent_move, &Player.move/1)
-
-    {:no_reply, move, number}
+  
+  # Server callbacks
+  def handle_call({:player, player, :move, move}, _from, game) do
+    # x = Domain.Player.move(move)
+    {:reply, 100, game}
   end
 end

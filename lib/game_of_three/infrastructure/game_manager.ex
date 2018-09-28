@@ -9,30 +9,24 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   ## Client API
   #
-  def init(args) do
-    {:producer, args}
-  end
-
-  def handle_demand(player, move) do
-    # turn -> player turn
-    # move -> value sent by the player turn movement
-    IO.inspect(player)
-    IO.inspect(move)
-    {:no_reply, player, move}
+  def start_link(game_setup) when is_map(game_setup) do
+    GenServer.start_link(__MODULE__, game_setup)
   end
 
   ## Server Callbacks
-  def init(:ok) do
+  def init(game_setup) do
     {:ok, %{}}
   end
 
   def handle_call({:add_player, name}, _from, game) do
     # game struct game_name, current_turn{}, players
     # add player to player list
-    {:reply, Map.fetch(players, name), game}
+    {:reply, name, game}
   end
 
-  def handle_cast({:player, name, :turn, value}, game) do
-    {:reply, 
+  def handle_call({:player, name, :turn, value}, _from, game) do
+    # game struct game_name, current_turn{}, players
+    # call other player with the current value
+    {:reply, name, game} 
   end
 end
