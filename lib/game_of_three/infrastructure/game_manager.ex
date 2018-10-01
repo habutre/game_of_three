@@ -3,7 +3,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   @moduledoc """
   The GameManager module is responsible by manage the games and players.
-  Each player will be identified by an PID as well as the games
+  Each player wqill be identified by an PID as well as the games
   Multiple games are expected to be played at same time
   """
 
@@ -13,9 +13,17 @@ defmodule GameOfThree.Infrastructure.GameManager do
     GenServer.start_link(__MODULE__, game_setup)
   end
 
+  def current_state(server) do
+    GenServer.call(server, :ok)
+  end
+
   ## Server Callbacks
   def init(game_setup) do
-    {:ok, %{}}
+    {:ok, game_setup}
+  end
+
+  def handle_call(_no_state_change, _from, game) do
+    {:reply, game, game}
   end
 
   def handle_call({:add_player, name}, _from, game) do
