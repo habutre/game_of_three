@@ -2,11 +2,9 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
   use ExUnit.Case, async: true
 
   alias GameOfThree.Infrastructure.GameManager
-  alias GameOfThree.Domain.Game
 
   setup do
-    game_setup = %Game{game_id: Base.encode64("#{NaiveDateTime.to_iso8601(NaiveDateTime.utc_now())}_game_of_three")}
-    game = start_supervised!({GameManager, game_setup})
+    game = start_supervised!({GameManager, GameManager.create_game()})
     %{game: game}
   end
 
@@ -19,6 +17,6 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
   end
 
   test "add player A to game" do
-    flunk "Not implemented!"
+    flunk("Not implemented!")
   end
 end

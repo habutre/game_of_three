@@ -5,7 +5,7 @@ defmodule PlayerHandler do
   def init(args) do
     {:ok, args}
   end
-  
+
   # Server callbacks
   def handle_call({:player, player, :move, move}, _from, game) do
     # x = Domain.Player.move(move)

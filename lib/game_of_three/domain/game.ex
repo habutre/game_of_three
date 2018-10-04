@@ -9,9 +9,16 @@ defmodule GameOfThree.Domain.Game do
             player_a: nil,
             player_b: nil
 
+  def create_game do
+    %__MODULE__{
+      game_id: generate_id(),
+      game_name: generate_name()
+    }
+  end
+
   def evaluate_move, do: {:error, "An empty movement is not allowed"}
 
-  def evaluate_move(value = nil), do: {:error, "An empty movement is not allowed"}
+  def evaluate_move(nil), do: {:error, "An empty movement is not allowed"}
 
   def evaluate_move(value) when is_bitstring(value),
     do: {:error, "A numeric value is expected here"}
@@ -30,5 +37,15 @@ defmodule GameOfThree.Domain.Game do
       true ->
         {:ok, div(value, 3)}
     end
+  end
+
+  defp generate_id do
+    Base.encode64("#{NaiveDateTime.to_iso8601(NaiveDateTime.utc_now())}_game_of_three")
+  end
+
+  defp generate_name do
+    :crypto.strong_rand_bytes(17)
+    |> Base.url_encode64()
+    |> binary_part(0, 17)
   end
 end
