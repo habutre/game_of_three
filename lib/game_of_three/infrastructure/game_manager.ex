@@ -16,27 +16,39 @@ defmodule GameOfThree.Infrastructure.GameManager do
     Game.create_game()
   end
 
-  def start_link(game_setup) when is_map(game_setup) do
-    GenServer.start_link(__MODULE__, game_setup)
-  end
-
   def current_state(server) do
     GenServer.call(server, :ok)
   end
 
+  def add_player(server, name) do
+    GenServer.call(server, {:add_player, name})
+  end
+
+  def start_link(game_setup) when is_map(game_setup) do
+    GenServer.start_link(__MODULE__, game_setup)
+  end
+
   ## Server Callbacks
+  #
   def init(game_setup) do
     {:ok, game_setup}
   end
 
-  def handle_call(_no_state_change, _from, game) do
+  def handle_call(:ok, _from, game) do
     {:reply, game, game}
   end
 
   def handle_call({:add_player, name}, _from, game) do
-    # game struct game_name, current_turn{}, players
-    # add player to player list
-    {:reply, name, game}
+    {ok, player_a} = Map.fetch(game, :player_a)
+
+    new_game =
+      if player_a == nil do
+        Map.put(game, :player_a, name)
+      else
+        Map.put(game, :player_b, name)
+      end
+
+    {:reply, name, new_game}
   end
 
   def handle_call({:player, name, :turn, value}, _from, game) do
