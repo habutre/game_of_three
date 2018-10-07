@@ -5,7 +5,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   @moduledoc """
   The GameManager module is responsible by manage the games and players.
-  Each player wqill be identified by an PID as well as the games
+  Each player will be identified by an PID as well as the games
   Multiple games are expected to be played at same time
   """
 
