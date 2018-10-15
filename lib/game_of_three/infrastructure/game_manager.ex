@@ -2,6 +2,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
   use GenServer
 
   alias GameOfThree.Domain.Game
+  alias GameOfThree.Domain.Player
 
   @moduledoc """
   The GameManager module is responsible by manage the games and players.
@@ -11,8 +12,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   ## Client API
   #
-
-  def create_game do
+  def create_game() do
     Game.create_game()
   end
 
@@ -21,7 +21,8 @@ defmodule GameOfThree.Infrastructure.GameManager do
   end
 
   def add_player(server, name) do
-    GenServer.call(server, {:add_player, name})
+    player = Player.create()
+    GenServer.call(server, {:add_player, player})
   end
 
   def start_link(game_setup) when is_map(game_setup) do
