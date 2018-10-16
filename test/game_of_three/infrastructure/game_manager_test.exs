@@ -17,20 +17,18 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
   end
 
   test "add player A to game", %{game: game} do
-    player_add = GameManager.add_player(game, "Joao")
+    player_add = GameManager.add_player(game)
     current_state = GameManager.current_state(game)
 
-    assert player_add == "Joao"
-    assert current_state.player_a == "Joao"
+    assert current_state.player_a == player_add
   end
 
   test "add player B to game", %{game: game} do
-    GameManager.add_player(game, "Mario")
-    player_add = GameManager.add_player(game, "Maria")
+    player_a = GameManager.add_player(game)
+    player_b = GameManager.add_player(game)
     current_state = GameManager.current_state(game)
 
-    assert player_add == "Maria"
-    assert current_state.player_a == "Mario"
-    assert current_state.player_b == "Maria"
+    assert current_state.player_a == player_a
+    assert current_state.player_b == player_b
   end
 end

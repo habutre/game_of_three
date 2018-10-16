@@ -46,7 +46,9 @@ defmodule GameOfThree.Domain.Player do
   end
 
   defp generate_name do
-    :crypto.strong_rand_bytes(17)
+    name = :crypto.strong_rand_bytes(17)
+
+    name
     |> Base.url_encode64()
     |> binary_part(0, 17)
   end

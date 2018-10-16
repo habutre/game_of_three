@@ -12,7 +12,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   ## Client API
   #
-  def create_game() do
+  def create_game do
     Game.create_game()
   end
 
@@ -20,7 +20,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
     GenServer.call(server, :ok)
   end
 
-  def add_player(server, name) do
+  def add_player(server) do
     player = Player.create()
     GenServer.call(server, {:add_player, player})
   end
