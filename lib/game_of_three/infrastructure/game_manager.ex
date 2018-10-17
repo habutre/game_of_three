@@ -40,7 +40,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
   end
 
   def handle_call({:add_player, name}, _from, game) do
-    {ok, player_a} = Map.fetch(game, :player_a)
+    {:ok, player_a} = Map.fetch(game, :player_a)
 
     new_game =
       if player_a == nil do
