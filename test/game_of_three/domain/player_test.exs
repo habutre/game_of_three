@@ -1,6 +1,7 @@
 defmodule PlayerTest do
-  alias GameOfThree.Domain.Player
   use ExUnit.Case
+  alias GameOfThree.Domain.Player
+
   doctest Player
 
   test "make a move with high number when no value is received" do

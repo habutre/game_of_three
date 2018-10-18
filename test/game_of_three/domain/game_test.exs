@@ -1,6 +1,7 @@
 defmodule GameOfThree.GameTest do
   use ExUnit.Case
   alias GameOfThree.Domain.Game
+
   doctest Game
 
   test "GIVEN a player move WHEN no value is sent                           THEN an error message should be sent" do
