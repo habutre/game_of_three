@@ -8,7 +8,7 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
     %{game: game}
   end
 
-  describe "Game Bootstrap" do
+  describe "Game Manager Bootstrap" do
     test "spawns game manager", %{game: game} do
       current_state = GameManager.current_state(game)
       {:ok, game_id} = Base.decode64(current_state.game_id)
@@ -42,6 +42,21 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
 
       assert current_state.player_a == player_a
       assert current_state.player_b == player_b
+    end
+  end
+
+  describe "Game Manager Play" do
+    setup game do
+      player_a = GameManager.add_player(game)
+      player_b = GameManager.add_player(game)
+
+      {game: game, player_a: player_a, player_b: player_b}
+    end
+
+    test "Randomize players and start", {game: game, player_a: player_a, player_b: player_b} do
+      refute is_nil(game) 
+      refute is_nil(player_a) 
+      refute is_nil(player_b) 
     end
   end
 end

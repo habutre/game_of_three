@@ -41,7 +41,7 @@ defmodule GameOfThree.Domain.Player do
 
   defp generate_id do
     # TODO extract generate_id+generate_name to a common module
-    # So far used on Game and Player
+    # See GameOfThree.Domain.Game.generate_id()
     Base.encode64("#{NaiveDateTime.to_iso8601(NaiveDateTime.utc_now())}_game_of_three")
   end
 
