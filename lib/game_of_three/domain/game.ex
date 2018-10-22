@@ -7,7 +7,9 @@ defmodule GameOfThree.Domain.Game do
   defstruct game_id: nil,
             game_name: nil,
             player_a: nil,
-            player_b: nil
+            player_b: nil,
+            move: nil,
+            next_to_play: nil
 
   def create_game do
     %__MODULE__{

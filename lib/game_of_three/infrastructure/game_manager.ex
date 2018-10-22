@@ -25,6 +25,12 @@ defmodule GameOfThree.Infrastructure.GameManager do
     GenServer.call(server, {:add_player, player})
   end
 
+  def start_game(game) do
+    move = Player.move()
+
+    GenServer.call(game, {:start, :turn, move})
+  end
+
   def start_link(game_setup) when is_map(game_setup) do
     GenServer.start_link(__MODULE__, game_setup)
   end
@@ -52,9 +58,13 @@ defmodule GameOfThree.Infrastructure.GameManager do
     {:reply, name, new_game}
   end
 
-  def handle_call({:player, name, :turn, value}, _from, game) do
+  def handle_call({:start, :turn, move}, _from, game) do
     # game struct game_name, current_turn{}, players
     # call other player with the current value
-    {:reply, name, game}
+    {:ok, player_b} = Map.fetch(game, :player_b)
+    Map.put(game, :move, move)
+    Map.put(game, :next_to_play, player_b)
+
+    {:reply, move, game}
   end
 end

@@ -46,17 +46,13 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
   end
 
   describe "Game Manager Play" do
-    setup game do
+    test "Randomize players and start", %{game: game} do
       player_a = GameManager.add_player(game)
       player_b = GameManager.add_player(game)
 
-      {game: game, player_a: player_a, player_b: player_b}
-    end
+      started = GameManager.start_game(game)
 
-    test "Randomize players and start", {game: game, player_a: player_a, player_b: player_b} do
-      refute is_nil(game) 
-      refute is_nil(player_a) 
-      refute is_nil(player_b) 
+      assert started >= 10_000 && started <= 25_000
     end
   end
 end
