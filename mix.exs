@@ -21,7 +21,6 @@ defmodule GameOfThree.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:gen_stage, "~> 0.14.0"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
