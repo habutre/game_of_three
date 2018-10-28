@@ -54,5 +54,17 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
 
       assert started >= 10_000 && started <= 25_000
     end
+
+    test "Move from next player", %{game: game} do
+      player_a = GameManager.add_player(game)
+      player_b = GameManager.add_player(game)
+      previous_move = GameManager.start_game(game)
+      move = GameManager.move(game)
+      game_state = GameManager.current_state(game)
+
+      assert move < previous_move
+      assert game_state.next_to_play == player_a
+      assert game_state.move == move
+    end
   end
 end

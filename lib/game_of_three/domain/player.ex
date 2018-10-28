@@ -18,7 +18,7 @@ defmodule GameOfThree.Domain.Player do
     seed_game()
   end
 
-  def move(opponent_move = nil) do
+  def move(opponent_move) when is_nil(opponent_move) do
     seed_game()
   end
 
