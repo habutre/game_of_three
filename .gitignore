@@ -18,6 +18,7 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+*.beam
 
 # Ignore .beam and secrets
 *.beam
@@ -25,6 +26,9 @@ erl_crash.dump
 
 # Ignore package tarball (built via "mix hex.build").
 game_of_three-*.tar
+
+# Ignore any secret
+/config/*.secret.exs
 
 # Ignore ctags file
 tags
