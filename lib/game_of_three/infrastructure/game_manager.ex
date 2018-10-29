@@ -35,7 +35,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
     game_state = current_state(game)
     move = Player.move(game_state.move)
 
-    GenServer.call(game, {:move, :turn, move})
+    GenServer.call(game, Game.evaluate_move(move))
   end
 
   def start_link(game_setup) when is_map(game_setup) do
@@ -76,7 +76,7 @@ defmodule GameOfThree.Infrastructure.GameManager do
     {:reply, move, game}
   end
 
-  def handle_call({:move, :turn, move}, _from, game) do
+  def handle_call({:ok, move}, _from, game) do
     # TODO move the move control to Game module
     {:ok, played} = Map.fetch(game, :next_to_play)
     {:ok, player_a} = Map.fetch(game, :player_a)
@@ -92,6 +92,18 @@ defmodule GameOfThree.Infrastructure.GameManager do
     game = Map.put(game, :move, move)
     game = Map.put(game, :next_to_play, next_to_play)
 
-    {:reply, move, game}
+    __MODULE__.move(game)
+  end
+
+  def handle_call({:winner, msg}, _from, game) do
+    {:reply, msg, game}
+  end
+
+  def handle_call({:tie, msg}, _from, game) do
+    {:reply, msg, game}
+  end
+
+  def handle_call({:error, msg}, _from, game) do
+    {:reply, msg, game}
   end
 end
