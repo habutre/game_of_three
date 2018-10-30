@@ -33,9 +33,25 @@ defmodule GameOfThree.Infrastructure.GameManager do
 
   def move(game) do
     game_state = current_state(game)
-    move = Player.move(game_state.move)
+    new_move = Player.move(game_state.move)
+    result = GenServer.call(game, Game.evaluate_move(new_move))
 
-    GenServer.call(game, Game.evaluate_move(move))
+    case result do
+      {:ok, move} ->
+        __MODULE__.move(game)
+
+      {:winner, msg} ->
+        IO.puts(msg)
+
+      {:tie, msg} ->
+        IO.puts(msg)
+
+      {:error, msg} ->
+        IO.puts(msg)
+
+      {_, _} ->
+        IO.inspect(game, label: "Misbehavior, check it out...")
+    end
   end
 
   def start_link(game_setup) when is_map(game_setup) do
@@ -92,18 +108,10 @@ defmodule GameOfThree.Infrastructure.GameManager do
     game = Map.put(game, :move, move)
     game = Map.put(game, :next_to_play, next_to_play)
 
-    __MODULE__.move(game)
+    {:reply, {:ok, move}, game}
   end
 
-  def handle_call({:winner, msg}, _from, game) do
-    {:reply, msg, game}
-  end
-
-  def handle_call({:tie, msg}, _from, game) do
-    {:reply, msg, game}
-  end
-
-  def handle_call({:error, msg}, _from, game) do
-    {:reply, msg, game}
+  def handle_call(final_result, _from, game) do
+    {:reply, final_result, game}
   end
 end
