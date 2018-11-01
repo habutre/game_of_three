@@ -36,21 +36,12 @@ defmodule GameOfThree.Infrastructure.GameManager do
     new_move = Player.move(game_state.move)
     result = GenServer.call(game, Game.evaluate_move(new_move))
 
-    case result do
-      {:ok, move} ->
+    cond do
+      {:ok, move} = result ->
         __MODULE__.move(game)
 
-      {:winner, msg} ->
-        IO.puts(msg)
-
-      {:tie, msg} ->
-        IO.puts(msg)
-
-      {:error, msg} ->
-        IO.puts(msg)
-
-      {_, _} ->
-        IO.inspect(game, label: "Misbehavior, check it out...")
+      true ->
+        GenServer.call(game, result)
     end
   end
 
@@ -111,7 +102,19 @@ defmodule GameOfThree.Infrastructure.GameManager do
     {:reply, {:ok, move}, game}
   end
 
-  def handle_call(final_result, _from, game) do
-    {:reply, final_result, game}
+  def handle_call({:tie, msg}, _from, game) do
+    {:reply, msg, game}
+  end
+
+  def handle_call({:winner, msg}, _from, game) do
+    {:reply, msg, game}
+  end
+
+  def handle_call({:error, msg}, _from, game) do
+    {:reply, msg, game}
+  end
+
+  def handle_info(result, game) do
+    IO.inspect(result, label: "Unmatched message")
   end
 end
