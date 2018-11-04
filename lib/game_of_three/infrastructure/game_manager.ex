@@ -104,18 +104,22 @@ defmodule GameOfThree.Infrastructure.GameManager do
   end
 
   def handle_call({:tie, msg}, _from, game) do
-    {:reply, msg, game}
+    {:reply, {:finish, msg}, game}
   end
 
   def handle_call({:winner, msg}, _from, game) do
-    {:reply, msg, game}
+    {:reply, {:finish, msg}, game}
   end
 
   def handle_call({:error, msg}, _from, game) do
-    {:reply, msg, game}
+    {:reply, {:error, msg}, game}
   end
 
-  def handle_info(result, game) do
-    IO.inspect(result, label: "Unmatched message")
+  def handle_info(_msg, game) do
+    {:noreply, game}
+  end
+
+  def handle_terminate(:normal, game) do
+    {:ok, game}
   end
 end
