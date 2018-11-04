@@ -36,12 +36,13 @@ defmodule GameOfThree.Infrastructure.GameManager do
     new_move = Player.move(game_state.move)
     result = GenServer.call(game, Game.evaluate_move(new_move))
 
-    cond do
-      {:ok, move} = result ->
+    case result do
+      {:ok, _move} ->
         __MODULE__.move(game)
 
-      true ->
-        GenServer.call(game, result)
+      {:finish, _msg} ->
+        GenServer.stop(game)
+        result
     end
   end
 
