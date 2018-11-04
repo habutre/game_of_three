@@ -59,10 +59,9 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
       _player_a = GameManager.add_player(game)
       _player_b = GameManager.add_player(game)
       _previous_move = GameManager.start_game(game)
-      move = GameManager.move(game)
+      {:finish, msg} = GameManager.move(game)
 
       expected_results = ["There is no winners in this game!", "The player xxx has won!"]
-      {:finish, msg} = move
 
       assert Enum.find_value(expected_results, fn expected -> expected == msg end)
     end
