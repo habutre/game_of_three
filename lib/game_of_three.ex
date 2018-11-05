@@ -14,4 +14,19 @@ defmodule GameOfThree do
   No winners will be also possible in case the server calculate a division resulting
   in 2 or less
   """
+
+  alias GameOfThree.Infrastructure.GameManager
+
+  def launch do
+    game = GameManager.create_game()
+    {:ok, server} = GameManager.start_link(game)
+    GameManager.add_player(server)
+    GameManager.add_player(server)
+    GameManager.start_game(server)
+    GameManager.move(server)
+  end
+
+  def launch(number_of_games) do
+    for n <- 1..number_of_games, do: launch()
+  end
 end
