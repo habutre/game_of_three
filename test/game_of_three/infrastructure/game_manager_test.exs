@@ -37,7 +37,7 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
     test "refuse new players when the room is full", %{game: game} do
       player_a = GameManager.add_player(game)
       player_b = GameManager.add_player(game)
-      player_c = GameManager.add_player(game)
+      _player_c = GameManager.add_player(game)
       current_state = GameManager.current_state(game)
 
       assert current_state.player_a == player_a
@@ -47,8 +47,8 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
 
   describe "Game Manager Play" do
     test "Randomize players and start", %{game: game} do
-      player_a = GameManager.add_player(game)
-      player_b = GameManager.add_player(game)
+      _player_a = GameManager.add_player(game)
+      _player_b = GameManager.add_player(game)
 
       started = GameManager.start_game(game)
 
@@ -56,15 +56,14 @@ defmodule GameOfThree.Infrastructure.GameManagerTest do
     end
 
     test "Move from next player", %{game: game} do
-      player_a = GameManager.add_player(game)
-      player_b = GameManager.add_player(game)
-      previous_move = GameManager.start_game(game)
-      move = GameManager.move(game)
-      game_state = GameManager.current_state(game)
+      _player_a = GameManager.add_player(game)
+      _player_b = GameManager.add_player(game)
+      _previous_move = GameManager.start_game(game)
+      {:finish, msg} = GameManager.move(game)
 
-      assert move < previous_move
-      assert game_state.next_to_play == player_a
-      assert game_state.move == move
+      expected_results = ["There is no winners in this game!", "The player xxx has won!"]
+
+      assert Enum.find_value(expected_results, fn expected -> expected == msg end)
     end
   end
 end
