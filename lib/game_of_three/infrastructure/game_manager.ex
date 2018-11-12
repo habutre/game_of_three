@@ -21,14 +21,11 @@ defmodule GameOfThree.Infrastructure.GameManager do
   end
 
   def add_player(server) do
-    player = Player.create()
-    GenServer.call(server, {:add_player, player})
+    GenServer.call(server, {:add_player, Player.create()})
   end
 
   def start_game(game) do
-    move = Player.move()
-
-    GenServer.call(game, {:start, :turn, move})
+    GenServer.call(game, {:start, :turn, Player.move()})
   end
 
   def move(game) do
@@ -61,46 +58,15 @@ defmodule GameOfThree.Infrastructure.GameManager do
   end
 
   def handle_call({:add_player, name}, _from, game) do
-    # TODO move the player allocation to Game module
-    {:ok, player_a} = Map.fetch(game, :player_a)
-
-    new_game =
-      if player_a == nil do
-        Map.put(game, :player_a, name)
-      else
-        Map.put(game, :player_b, name)
-      end
-
-    {:reply, name, new_game}
+    {:reply, name, Game.add_player(game, name)}
   end
 
   def handle_call({:start, :turn, move}, _from, game) do
-    # game struct game_name, current_turn{}, players
-    # call other player with the current value
-    {:ok, player_b} = Map.fetch(game, :player_b)
-    game = Map.put(game, :move, move)
-    game = Map.put(game, :next_to_play, player_b)
-
-    {:reply, move, game}
+    {:reply, move, Game.start_game(game, move)}
   end
 
   def handle_call({:ok, move}, _from, game) do
-    # TODO move the move control to Game module
-    {:ok, played} = Map.fetch(game, :next_to_play)
-    {:ok, player_a} = Map.fetch(game, :player_a)
-    {:ok, player_b} = Map.fetch(game, :player_b)
-
-    next_to_play =
-      if played == player_a do
-        player_b
-      else
-        player_a
-      end
-
-    game = Map.put(game, :move, move)
-    game = Map.put(game, :next_to_play, next_to_play)
-
-    {:reply, {:ok, move}, game}
+    {:reply, {:ok, move}, Game.perform_turn(game, move)}
   end
 
   def handle_call({:tie, msg}, _from, game) do

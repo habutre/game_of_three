@@ -27,6 +27,6 @@ defmodule GameOfThree do
   end
 
   def launch(number_of_games) do
-    for n <- 1..number_of_games, do: launch()
+    for _ <- 1..number_of_games, do: launch()
   end
 end

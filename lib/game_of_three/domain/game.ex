@@ -18,6 +18,42 @@ defmodule GameOfThree.Domain.Game do
     }
   end
 
+  def add_player(game_state, player_name) do
+    {:ok, player_a} = Map.fetch(game_state, :player_a)
+
+    if player_a == nil do
+      Map.put(game_state, :player_a, player_name)
+    else
+      Map.put(game_state, :player_b, player_name)
+    end
+  end
+
+  def start_game(game_state, initial_move) do
+    {:ok, player_b} = Map.fetch(game_state, :player_b)
+    game_move_changed = Map.put(game_state, :move, initial_move)
+    game_next_player_changed = Map.put(game_move_changed, :next_to_play, player_b)
+
+    game_next_player_changed
+  end
+
+  def perform_turn(game_state, move) do
+    {:ok, played} = Map.fetch(game_state, :next_to_play)
+    {:ok, player_a} = Map.fetch(game_state, :player_a)
+    {:ok, player_b} = Map.fetch(game_state, :player_b)
+
+    next_to_play =
+      if played == player_a do
+        player_b
+      else
+        player_a
+      end
+
+    game_move_changed = Map.put(game_state, :move, move)
+    game_next_to_play_changed = Map.put(game_move_changed, :next_to_play, next_to_play)
+
+    game_next_to_play_changed
+  end
+
   def evaluate_move, do: {:error, "An empty movement is not allowed"}
 
   def evaluate_move(nil), do: {:error, "An empty movement is not allowed"}
