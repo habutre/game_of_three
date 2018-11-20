@@ -15,14 +15,20 @@ defmodule GameOfThree.Domain.Player do
   end
 
   def move do
+    wait_time()
+
     seed_game()
   end
 
   def move(opponent_move) when is_nil(opponent_move) do
+    wait_time()
+
     seed_game()
   end
 
   def move(opponent_move) do
+    wait_time()
+
     cond do
       opponent_move / 3 <= 1 ->
         opponent_move
@@ -51,5 +57,14 @@ defmodule GameOfThree.Domain.Player do
     name
     |> Base.url_encode64()
     |> binary_part(0, 17)
+  end
+
+  defp wait_time do
+    1..4
+    |> Enum.random()
+    |> (fn t -> t * 100 end).()
+    |> Process.sleep()
+
+    :ok
   end
 end
